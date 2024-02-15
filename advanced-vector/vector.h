@@ -294,7 +294,7 @@ public:
     template <typename... Args>
     iterator Emplace(const_iterator pos, Args&&... args)
     {
-        
+        assert(pos >= begin() && pos < end())
         std::size_t offset = std::distance(this->begin(), const_cast<iterator>(pos));
         if (this->size_ == this->Capacity()) {
             auto new_cap = this->size_ == 0 ? 1 : this->size_ * 2;
@@ -349,6 +349,7 @@ public:
 
     iterator Erase(const_iterator pos) /*noexcept(std::is_nothrow_move_assignable_v<T>)*/
     {
+        assert(pos >= begin() && pos < end())
         auto offset = pos - this->begin();
         std::move(this->begin() + offset + 1, this->end(), this->begin() + offset);
         this->PopBack();
